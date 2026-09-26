@@ -1,0 +1,43 @@
+# Complete 503-question LongBench-v2 trajectory run through OpenRouter.
+# This configuration records every signal needed for the official raw
+# ACS controller, numeric verbalized-confidence, and asked END-gate
+# replays. MCQ decisions use the contextual posterior directly.
+server:
+  base_url: "https://openrouter.ai/api/v1"
+  api_key: ""  # loaded only from OPENROUTER_API_KEY
+  model: "qwen/qwen3.5-397b-a17b"  # override with MODEL for another reported arm
+  cache_dir: "hf_cache"
+  scratch_dir: "hf_cache/tmp"
+
+fold:
+  chunk_chars: 24000
+  notes_chars: 6000
+  notes_tokens: 1500
+  draft_tokens: 32
+  workers: 8
+
+stopping:
+  theta_grid: [0.995]
+  eps_grid: [0.005, 0.01, 0.02, 0.05]
+  stability_window: 3
+  tolerance: 0.02
+
+online_stop:
+  rule: none                  # mandatory: record complete trajectories
+  theta: 0.995                # frozen ACS threshold for offline replay
+  eps: 0.05                   # frozen ACS divergence threshold
+  window: 3
+  min_chunks: 2
+  record_verbalized: true     # numeric self-reported confidence; replay at 99.5/100
+  record_gate: true           # separate END/CONTINUE asked-gate ablation
+
+benchmarks:
+  longbench_v2:
+    all_samples: true         # disables filtering, balancing and truncation
+    expected_n: 503           # fail rather than silently export a partial set
+    output_name: longbench_v2_all
+
+paths:
+  data_dir: "data"
+  results_dir: "results"
+

@@ -1,0 +1,32 @@
+# Qwen3-14B / OpenRouter, full RULER-HotpotQA trajectories.
+server:
+  base_url: "https://openrouter.ai/api/v1"
+  api_key: ""  # loaded only from OPENROUTER_API_KEY
+  model: "qwen/qwen3-14b"  # override with MODEL for Kimi or Qwen3.5
+  cache_dir: "../cache"
+  scratch_dir: "../cache/tmp"
+
+fold:
+  chunk_chars: 24000  # shared chunk size in characters
+  notes_chars: 6000   # rolling-tail memory cap in characters
+  notes_tokens: 1500  # maximum notes completion; not a target length
+  draft_tokens: 32    # short open-answer ceiling
+  workers: 8          # concurrent samples; chunks remain sequential
+
+online_stop:
+  rule: none          # mandatory: record every chunk for offline replay
+  theta: 0.995        # unused by rule=none; frozen analysis is passed explicitly
+  eps: 0.05           # unused by rule=none
+  window: 3           # unused by rule=none
+  min_chunks: 2       # unused by rule=none
+  record_verbalized: true
+  record_gate: true
+
+analysis:
+  theta_grid: [0.995]
+  eps_grid: [0.005, 0.01, 0.02, 0.05]
+  window: 3
+
+paths:
+  data_dir: "../data"
+  results_dir: "../results"

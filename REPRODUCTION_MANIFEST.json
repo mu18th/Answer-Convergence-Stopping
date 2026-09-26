@@ -1,0 +1,83 @@
+{
+  "artifact": "ACS anonymous reproducibility package",
+  "contains_results": false,
+  "contains_benchmark_plaintext": false,
+  "contains_credentials": false,
+  "controller": "windowed_confidence_and_mean_adjacent_stability_only",
+  "posterior": "raw_contextual_exact_candidate_scores",
+  "missing_measurement_policy": "fail_closed_without_fabricated_probability",
+  "open_draft_policy": "shared_conservative_non_answer_cleaner",
+  "full_trajectory_policy": "rule_none_then_paired_offline_replay",
+  "headline_baselines": [
+    "full_reading",
+    "random_stop_uniform_200_draws",
+    "verbalized_gate_at_99.5",
+    "end_continue_gate"
+  ],
+  "evidence_timing_references_only": ["fixed_at_25_percent", "oracle_stop"],
+  "ablation_only": ["confidence_only"],
+  "shared_default": {
+    "chunk_chars": 24000,
+    "notes_chars": 6000,
+    "theta": 0.995,
+    "epsilon": 0.05,
+    "window_states": 3,
+    "verbalized_threshold_0_100": 99.5,
+    "temperature": 0.0,
+    "notes_retention": "rolling_tail"
+  },
+  "longbench_kimi_ablation": {
+    "experiment": "longbench_kimi_frozen_80",
+    "expected_rows": 80,
+    "theta": 0.995
+  },
+  "browsecomp_judge": {
+    "model": "qwen/qwen3-32b",
+    "temperature": 0.0,
+    "max_tokens": 512
+  },
+  "benchmarks": {
+    "longbench_v2": {
+      "expected_rows": 503,
+      "task_shape": "mcq",
+      "dataset": "THUDM/LongBench-v2",
+      "revision": "2b48e494f2c7a2f0af81aae178e05c7e1dde0fe9"
+    },
+    "sniah": {
+      "expected_rows": 250,
+      "buckets": [8192, 16384, 32768, 65536, 131072],
+      "rows_per_bucket": 50,
+      "task_shape": "open"
+    },
+    "ruler_hotpotqa": {
+      "expected_unique_source_questions": 100,
+      "expected_trajectories": 500,
+      "cohorts": 2,
+      "length_buckets": 5,
+      "task_shape": "open",
+      "generator": "NVIDIA/RULER qa_2",
+      "tokenizer_type": "hf",
+      "tokenizer_path": "Qwen/Qwen3-14B"
+    },
+    "browsecomp_plus": {
+      "expected_rows": 830,
+      "construction": "ACS_min10doc_all830_v1",
+      "minimum_documents_per_query": 10,
+      "task_shape": "open",
+      "query_dataset": "Tevatron/browsecomp-plus",
+      "query_revision": "144cff8e35b5eaef7e526346aa60774a9deb941f",
+      "corpus_dataset": "Tevatron/browsecomp-plus-corpus",
+      "corpus_revision": "b27b02bc3e45511b8b82a13e6f90ce761df726f6"
+    }
+  },
+  "models": [
+    "qwen/qwen3.5-397b-a17b",
+    "moonshotai/kimi-k2.5",
+    "qwen/qwen3-14b",
+    "qwen/qwen-2.5-7b-instruct",
+    "qwen/qwen3-32b",
+    "google/gemma-3-12b-it",
+    "google/gemma-3-27b-it"
+  ],
+  "parameter_selection": "fixed theta=0.995 for headline rows; explicit same-question best-theta sweeps are labelled exploratory upper bounds"
+}

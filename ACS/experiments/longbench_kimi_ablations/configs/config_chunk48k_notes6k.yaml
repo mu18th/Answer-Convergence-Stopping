@@ -1,0 +1,10 @@
+server:
+  base_url: "https://openrouter.ai/api/v1"
+  api_key: ""
+  model: "moonshotai/kimi-k2.5"
+  cache_dir: "hf_cache"
+  scratch_dir: "hf_cache/tmp"
+fold: {chunk_chars: 48000, notes_chars: 6000, notes_tokens: 1500, draft_tokens: 32, workers: 8}
+stopping: {theta_grid: [0.995], eps_grid: [0.05], stability_window: 3, tolerance: 0.02}
+online_stop: {rule: none, theta: 0.995, eps: 0.05, window: 3, min_chunks: 2, record_verbalized: false, record_gate: false}
+paths: {data_dir: data, results_dir: results}

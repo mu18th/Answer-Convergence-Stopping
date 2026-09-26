@@ -1,0 +1,40 @@
+# Notes-cap ablation: 12K characters; all other settings frozen.
+server:
+  base_url: "https://openrouter.ai/api/v1"
+  api_key: ""                 # Loaded only from OPENROUTER_API_KEY.
+  model: "qwen/qwen3-14b"
+  cache_dir: "hf_cache"
+  scratch_dir: "hf_cache/tmp"
+
+fold:
+  chunk_chars: 24000
+  notes_chars: 12000
+  notes_tokens: 1500
+  draft_tokens: 32
+  workers: 8
+
+stopping:
+  theta_grid: [0.995]
+  eps_grid: [0.05]
+  stability_window: 3
+  tolerance: 0.02
+
+online_stop:
+  rule: none                  # Full trajectories, then paired offline replay.
+  theta: 0.995
+  eps: 0.05
+  window: 3
+  min_chunks: 2
+  record_verbalized: true
+  record_gate: true
+
+benchmarks:
+  buckets_tokens: [8192, 16384, 32768, 65536, 131072]
+  sniah:
+    n: 250                    # 50 per bucket; this ablation evaluates all 250 rows.
+    seed: 0
+
+paths:
+  data_dir: "data"
+  results_dir: "results"
+

@@ -1,0 +1,8 @@
+# Extra packages used by NVIDIA/RULER's official data generator with --tokenizer-type hf.
+# Keep separate from inference requirements so an API-only run is not forced to
+# install a local model stack.
+transformers==4.57.6
+numpy==2.3.4
+tqdm==4.67.1
+nltk==3.9.2
+tenacity==9.1.2

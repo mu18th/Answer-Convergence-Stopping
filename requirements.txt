@@ -1,0 +1,8 @@
+# Versions are the ones the reported results were produced with (Python 3.13.7).
+# Pinned rather than floored: `datasets` in particular changes loader behaviour
+# across majors, and a benchmark that silently builds different rows is worse
+# than one that fails to install.
+openai==2.44.0
+datasets==5.0.0
+PyYAML==6.0.3
+
