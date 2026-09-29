@@ -266,4 +266,16 @@ syntax, anonymity patterns, and excluded private/generated files.
 
 ## Citation
 
-Citation metadata will be added after publication.
+If you use ACS in your research, please cite:
+
+```bibtex
+@misc{alyobi2026modelknowsstop,
+      title={The Model Knows When to Stop: Training-Free Early Stopping for Long-Context Reading},
+      author={Muath Alyobi and Mohamed Eltahir and Almoayyad Abuljdail and Riyadh Almutawa and Tanveer Hussain and Naeemullah Khan},
+      year={2026},
+      eprint={2609.34590},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2609.34590},
+}
+```
