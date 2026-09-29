@@ -30,6 +30,15 @@ used for the reported experiments.
 
 ---
 
+## Methodology
+
+<div align="center">
+  <img src="Figures/fig1_overview.png" width="900">
+  <p><em>Overview of ACS. The document is processed sequentially in chunks while a frozen model maintains running notes. After each chunk, a separate probe produces the current answer state b<sub>t</sub> and confidence c<sub>t</sub>, and consecutive answer states define the change δ<sub>t</sub>. The stopping rule halts at the first step where c<sub>t</sub> ≥ θ and the mean change Δ<sub>t</sub> over the last min(t, w) answer states satisfies Δ<sub>t</sub> ≤ ε.</em></p>
+</div>
+
+---
+
 ## Repository structure
 
 ```text
