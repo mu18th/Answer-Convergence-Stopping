@@ -259,20 +259,6 @@ abstaining, or low-confidence open-answer drafts reset the stability window.
 
 ---
 
-## Validation
-
-Before running or publishing changes:
-
-```bash
-python validate_release.py
-python -m unittest -v test_release_semantics.py
-```
-
-The validator checks the repository structure, configuration invariants,
-syntax, anonymity patterns, and excluded private/generated files.
-
----
-
 ## Citation
 
 If you use ACS in your research, please cite:
