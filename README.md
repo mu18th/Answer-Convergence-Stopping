@@ -1,9 +1,19 @@
-Authors: Muath Alyobi, Mohamed Eltahir, Almoayyad Abuljdail, Riyadh Almutawa, Tanveer Hussain, Naeemullah Khan.
+# ACS: Answer-Convergence Stopping
+**Authors:** Muath Alyobi, Mohamed Eltahir, Almoayyad Abuljdail, Riyadh Almutawa, Tanveer Hussain and Naeemullah Khan.
+
+<div align="center">
 
 [![arXiv](https://img.shields.io/badge/arXiv-2609.34590-b31b1b)](https://arxiv.org/abs/2609.34590)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-# ACS: Answer-Convergence Stopping
+</div>
+
+<div align="center">
+  <img src="Figures/fig2_pair.png" width="1000">
+  <p><em><b>Left:</b> share of S-NIAH runs that stop before reaching the evidence, across five models. <b>Right:</b> model stop offset against evidence position (chunk), with the oracle stop shaded. ACS is shown in blue and the verbalized gate in orange.</em></p>
+</div>
+
+---
 
 Answer-Convergence Stopping (ACS) is a training-free controller for stopping long-context reading when the
 model's answer is both confident and stable. This repository contains the
@@ -17,6 +27,8 @@ used for the reported experiments.
 - Supports OpenRouter and compatible local vLLM servers.
 - Provides resumable trajectory recording and offline policy replay.
 - Includes LongBench-v2, S-NIAH, RULER-HotpotQA, and BrowseComp-Plus adapters.
+
+---
 
 ## Repository structure
 
@@ -34,6 +46,8 @@ ACS/
 
 Generated `data/`, `results/`, `checkpoints/`, caches, and credentials are
 excluded from version control.
+
+---
 
 ## Installation
 
@@ -54,6 +68,8 @@ $env:OPENROUTER_API_KEY = "YOUR_KEY"
 ```
 
 Never place credentials in YAML or JSONL files.
+
+---
 
 ## Quick start
 
@@ -86,6 +102,8 @@ python ACS/eval/analyze.py evidence \
 The reproduction workflow is: prepare benchmark JSONL, record complete trajectories with --rule none,
 add deterministic evidence labels when needed, and evaluate the saved trajectories
 offline.
+
+---
 
 ## Use ACS online on a new dataset
 
@@ -145,6 +163,8 @@ vllm serve "YOUR_HUGGINGFACE_MODEL_ID" \
 
 Point the YAML `server.base_url` to `http://127.0.0.1:8000/v1`. The runner
 checks constrained decoding and required log probabilities before inference.
+
+---
 
 ## Reproduce the experiments
 
@@ -210,6 +230,8 @@ python -u analyze_browsecomp_all830.py \
 Available arms are `qwen14`, `qwen35`, and `kimi`. Use the same validated judge
 for every arm.
 
+---
+
 ## Configuration
 
 The released ACS constants are:
@@ -226,6 +248,8 @@ The released ACS constants are:
 With `window=3`, the first eligible stopping point is step 3. Empty,
 abstaining, or low-confidence open-answer drafts reset the stability window.
 
+---
+
 ## Validation
 
 Before running or publishing changes:
@@ -237,6 +261,8 @@ python -m unittest -v test_release_semantics.py
 
 The validator checks the repository structure, configuration invariants,
 syntax, anonymity patterns, and excluded private/generated files.
+
+---
 
 ## Citation
 
