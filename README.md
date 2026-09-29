@@ -1,6 +1,6 @@
 Authors: Muath Alyobi, Mohamed Eltahir, Almoayyad Abuljdail, Riyadh Almutawa, Tanveer Hussain, Naeemullah Khan.
 
-[![arXiv](https://img.shields.io/badge/arXiv-TBD-b31b1b)](https://arxiv.org/abs/2609.34590)
+[![arXiv](https://img.shields.io/badge/arXiv-2609.34590-b31b1b)](https://arxiv.org/abs/2609.34590)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 # ACS: Answer-Convergence Stopping
