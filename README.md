@@ -1,3 +1,7 @@
+Authors: Muath Alyobi, Mohamed Eltahir, Almoayyad Abuljdail, Riyadh Almutawa, Tanveer Hussain, Naeemullah Khan.
+
+https://arxiv.org/abs/2609.34590
+
 # ACS: Answer-Convergence Stopping
 
 Answer-Convergence Stopping (ACS) is a training-free controller for stopping long-context reading when the
