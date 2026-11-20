@@ -1,3 +1,4 @@
+"""Small offline regression suite for the released stopping semantics."""
 from __future__ import annotations
 
 import importlib.util
