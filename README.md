@@ -239,6 +239,40 @@ python -u analyze_browsecomp_all830.py \
 Available arms are `qwen14`, `qwen35`, and `kimi`. Use the same validated judge
 for every arm.
 
+### Misleading needles on S-NIAH (Table 3)
+
+Three RULER needles with other keys are inserted before the queried needle in
+each of the 250 S-NIAH documents; the Qwen3-14B run is recorded in full and
+every stopping rule is replayed offline.
+
+```bash
+cd ACS/experiments/sniah_distractor
+python -u run_sniah_distractor.py --workers 8 --prepare
+python -u analyze_sniah_distractor.py
+```
+
+See `ACS/experiments/sniah_distractor/README.md` for the row definitions.
+
+### Trained DCC baseline on RULER-HotpotQA (Table 4)
+
+The official DCC implementation is fetched at a pinned commit, its files are
+left untouched, and the Qwen3 adaptations are applied at runtime by
+`dcc_overlay.py`. DCC is trained on a separate RULER-HotpotQA training
+cohort and evaluated on the paper's 500 documents. ACS is replayed from the
+Qwen3-14B RULER-HotpotQA trajectories above: the two `run_fold.py --out`
+files recorded with `--rule none` for the 250-row cohorts built with
+`--selection-offset 0` and `--selection-offset 50`.
+
+```bash
+cd ACS/experiments/ruler_hotpotqa_dcc
+python -u prepare_dcc_data.py
+python -u run_dcc_experiment.py
+python -u analyze_acs_vs_dcc.py --acs-traj <cohort-1 trajectories> <cohort-2 trajectories>
+```
+
+See `ACS/experiments/ruler_hotpotqa_dcc/README.md` for splitting stages
+across processes and every adaptation of the DCC code.
+
 ---
 
 ## Configuration

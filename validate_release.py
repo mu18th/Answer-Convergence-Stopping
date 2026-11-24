@@ -12,10 +12,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent
 PACKAGE_ROOT = ROOT / "ACS"
-EXPECTED_SOURCE_FILES = 62
+# 62 submitted files plus the Table 3 (sniah_distractor) and Table 4
+# (ruler_hotpotqa_dcc) experiment folders.
+EXPECTED_SOURCE_FILES = 80
 EXPECTED_PATHS_SHA256 = (
-    "425e6a0930e7c2451f23a4d6a2efdb2bd9dd08bac4b9858d76f2724a2b358437"
+    "75221b7de3cf117ef06e5addd53821f88db8aeb18219770b505ec8a5a1c5a928"
 )
+DCC_COMMIT = "337c20b6561e13fc1af34d706158cd74783765da"
 MAX_SOURCE_BYTES = 100_000
 FROZEN_FILE_SHA256 = {
     "ACS/run_fold.py": "fab4e9517841f2d38682499ca392a6aad1d7017e121a4ac9a8b9304c251bcd3c",
@@ -58,6 +61,14 @@ REQUIRED = {
     "ACS/configs/sniah_full.yaml",
     "ACS/experiments/longbench_kimi_ablations/make_matched_80.py",
     "ACS/experiments/longbench_kimi_ablations/matched80_ids.json",
+    "ACS/experiments/sniah_distractor/prepare_sniah_distractor.py",
+    "ACS/experiments/sniah_distractor/run_sniah_distractor.py",
+    "ACS/experiments/sniah_distractor/analyze_sniah_distractor.py",
+    "ACS/experiments/ruler_hotpotqa_dcc/prepare_dcc_data.py",
+    "ACS/experiments/ruler_hotpotqa_dcc/run_dcc_experiment.py",
+    "ACS/experiments/ruler_hotpotqa_dcc/run_dcc.py",
+    "ACS/experiments/ruler_hotpotqa_dcc/dcc_overlay.py",
+    "ACS/experiments/ruler_hotpotqa_dcc/analyze_acs_vs_dcc.py",
 }
 REDUNDANT_RUNTIME_COPIES = {
     "ACS/experiments/browsecomp_plus/run_fold.py",
@@ -76,6 +87,7 @@ REDUNDANT_RUNTIME_COPIES = {
 FORBIDDEN_DIRS = {
     "data", "results", "checkpoints", "hf_cache", "cache", "vendor", "figures",
     "official_ruler", "__pycache__", ".pytest_cache", ".venv",
+    "external", "logs",
 }
 FORBIDDEN_DIR_PREFIXES = ("pytest-cache-files-", "official_ruler_")
 FORBIDDEN_FILES = {".env", "analyze_sniah_qwen3_14b_250.py"}
@@ -366,6 +378,7 @@ def main() -> None:
         PACKAGE_ROOT / "experiments" / "browsecomp_plus" / "run_browsecomp_all830.py",
         PACKAGE_ROOT / "experiments" / "sniah_ablations" / "run_sniah_ablations.py",
         PACKAGE_ROOT / "experiments" / "longbench_kimi_ablations" / "run_ablations.py",
+        PACKAGE_ROOT / "experiments" / "sniah_distractor" / "run_sniah_distractor.py",
     ]
     for path in fingerprinted_launchers:
         source = path.read_text(encoding="utf-8")
@@ -451,6 +464,23 @@ def main() -> None:
             errors.append("matched80_ids.json: IDs/order differ from frozen cohort")
         if matched.get("ordered_ids_sha256") != MATCHED80_IDS_SHA256:
             errors.append("matched80_ids.json: ordered_ids_sha256 is incorrect")
+
+    dcc_root = PACKAGE_ROOT / "experiments" / "ruler_hotpotqa_dcc"
+    dcc_manifest = manifest.get("ruler_hotpotqa_dcc") or {}
+    if dcc_manifest.get("dcc_commit") != DCC_COMMIT or \
+            dcc_manifest.get("dcc_upstream_modified") is not False:
+        errors.append("REPRODUCTION_MANIFEST.json: DCC commit is not pinned")
+    for name in ("prepare_dcc_data.py", "run_dcc.py"):
+        path = dcc_root / name
+        if path.is_file() and DCC_COMMIT not in path.read_text(encoding="utf-8"):
+            errors.append(f"{path.relative_to(ROOT)}: DCC commit differs from {DCC_COMMIT}")
+    launcher = dcc_root / "run_dcc_experiment.py"
+    if launcher.is_file():
+        launcher_text = launcher.read_text(encoding="utf-8")
+        for flag in ("--chat-template", "--yarn-128k"):
+            # A quoted argument of DCC_ARGS, not a mention in a comment.
+            if not re.search(rf'^\s*"{re.escape(flag)}",\s*$', launcher_text, re.M):
+                errors.append(f"{launcher.relative_to(ROOT)}: Table 4 setting missing: {flag}")
 
     for path in ROOT.rglob("*.py"):
         try:

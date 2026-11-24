@@ -36,6 +36,33 @@
     "temperature": 0.0,
     "max_tokens": 512
   },
+  "sniah_distractor": {
+    "table": 3,
+    "source": "the 250-row S-NIAH build",
+    "distractor_needles_before_target": 3,
+    "seed": 0,
+    "model": "qwen/qwen3-14b",
+    "config": "ACS/experiments/sniah_ablations/config_sniah_qwen14b_base.yaml",
+    "recording": "rule_none_then_paired_offline_replay"
+  },
+  "ruler_hotpotqa_dcc": {
+    "table": 4,
+    "evaluation": "the paper's 500 RULER-HotpotQA documents",
+    "dcc_repository": "https://github.com/ruoyuxie/when-to-stop",
+    "dcc_commit": "337c20b6561e13fc1af34d706158cd74783765da",
+    "dcc_upstream_modified": false,
+    "backbone": "Qwen/Qwen3-14B",
+    "training_cohort": "120 HotpotQA train questions x 5 RULER qa_2 lengths, source-disjoint",
+    "training_split": "80/10/10 by source question",
+    "probe_training_lengths": [[8192, 16384, 32768], [8192, 16384, 32768, 65536, 131072]],
+    "chunks": 10,
+    "probe_heads": 5,
+    "threshold": 0.95,
+    "max_new_tokens": 32,
+    "seed": 42,
+    "chat_template_thinking_disabled": true,
+    "yarn_context_tokens": 131072
+  },
   "benchmarks": {
     "longbench_v2": {
       "expected_rows": 503,
